@@ -3,6 +3,7 @@ import requests
 import string
 from torrent_file_reader import info_hash, file_decoded, tracker_url
 import bencoder
+import socket
 
 """This module requests tracker and receives requests' interval time and peers data"""
 
@@ -25,9 +26,15 @@ conn_parameters = {  # all parameters for accessing tracker's url
 
 tracker_response = requests.get(tracker_url, params=conn_parameters)  # get request to tracker url
 tracker_data = bencoder.decode(tracker_response.content)  # encoding bytes tracker answer to a dict
-print(tracker_data)
+# print(tracker_data)
 
 interval = tracker_data[b'interval']  # getting interval of tracker url requests (int)
 peers = tracker_data[b'peers']  # getting number of available peers (bytes)
 
-peers_num = bencoder.decode(peers)
+
+# todo fix this bug
+print(peers.decode('utf-8'))
+
+
+
+# socket.gethostbyname(socket.gethostname())

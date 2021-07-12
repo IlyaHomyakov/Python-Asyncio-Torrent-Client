@@ -12,7 +12,7 @@ from util import LOG, PEER_ID
 
 
 class Tracker(object):
-    def __init__(self, torrent : Torrent):
+    def __init__(self, torrent: Torrent):
         self.torrent = torrent
         self.tracker_url = torrent.announce_url
         self.peers = []
@@ -51,10 +51,11 @@ class Tracker(object):
             'left': self.torrent.size
         }
 
-    def parse_peers(self, peers : bytes):
+    def parse_peers(self, peers: bytes):
         self_addr = socket.gethostbyname(socket.gethostname())
         self_addr = '192.168.99.1'
         LOG.info('Self addr is: {}'.format(self_addr))
+
         def handle_bytes(peers_data):
             peers = []
             for i in range(0, len(peers_data), 6):
