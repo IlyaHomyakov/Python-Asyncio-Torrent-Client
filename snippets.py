@@ -9,3 +9,8 @@ url = file_decoded[b'announce']
 print(url)
 
 
+def foo():
+    def baz():
+        print('lol')
+
+foo()

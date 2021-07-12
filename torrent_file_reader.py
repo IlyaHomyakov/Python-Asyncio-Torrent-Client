@@ -3,7 +3,7 @@ import hashlib
 
 """This module opens a torrent file and parses information from it"""
 
-torrent_file = open('src/ubuntu.torrent', 'rb')  # opening file in read-bytes mode
+torrent_file = open('src/linuxmint18.torrent', 'rb')  # opening file in read-bytes mode
 file_decoded = bencoder.decode(torrent_file.read())  # decoding bytes file to a dict
 # print(file_decoded)
 

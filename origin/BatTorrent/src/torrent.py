@@ -6,7 +6,7 @@ import bencoder
 
 
 class Torrent(object):
-    def __init__(self, path : str):
+    def __init__(self, path: str):
         self.path = path
         self.info = self.read_torrent_file(path)
 
@@ -14,7 +14,7 @@ class Torrent(object):
         return self.info[item]
 
     def get_piece_hash(self, piece_idx):
-        return self.info[b'info'][b'pieces'][piece_idx*20: (piece_idx*20) + 20]
+        return self.info[b'info'][b'pieces'][piece_idx * 20: (piece_idx * 20) + 20]
 
     @property
     def announce_url(self) -> str:
@@ -34,7 +34,7 @@ class Torrent(object):
         else:
             return sum([int(f[b'length']) for f in info[b'files']])
 
-    def read_torrent_file(self, path : str) -> dict:
+    def read_torrent_file(self, path: str) -> dict:
         with open(path, 'rb') as f:
             return bencoder.decode(f.read())
 
