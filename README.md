@@ -7,3 +7,5 @@ Last issue occurs in tracker_requester module when we try to convert bytes strin
 `print(peers.decode('utf-8'))`
 
 `UnicodeDecodeError: 'utf-8' codec can't decode byte 0xbd in position 0: invalid start byte`
+
+_torrent files are in src folder_
