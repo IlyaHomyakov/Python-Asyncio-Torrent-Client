@@ -31,10 +31,12 @@ async def connect_to_peer(peer_address):  # starting connections to the peer
 
 # todo fix Operation Timed Out while handshaking peer
     writer.write(handshake)  # handshaking a peer
+    msg = struct.pack('>Ib', 1, 2)  # unchoke and interest message
+    writer.write(msg)
     await writer.drain()  # buffers the data and arranges for it to be sent out asynchronously.
     # peer_handshake = await reader.read(68)  doing nothing, stops program normal flow
     # print(peer_handshake)
-    resp = await reader.read()  # Suspends here if there's nothing to be read, also stops program normal flow
+    resp = await reader.read(68)  # Suspends here if there's nothing to be read, also stops program normal flow
 
     print(resp)
     # print(writer, reader)
