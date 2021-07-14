@@ -18,4 +18,4 @@ size_megabytes = size / 1024 ** 2  # size of downloading file in MB
 info_hash = hashlib.sha1(  # creating hash from info dict of torrent file
     bencoder.encode(file_decoded[b'info'])
 ).digest()
-print(info_hash)
+# print(info_hash)

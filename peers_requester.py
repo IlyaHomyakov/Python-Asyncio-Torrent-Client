@@ -14,32 +14,36 @@ handshake = struct.pack(  # creating data for handshaking a peer
     19,
     b'BitTorrent protocol',
     info_hash,
-    peer_id.encode()
+    peer_id.encode(),
 )
-# handshake_str = '>B19s8x20s20s' + (19).encode() +  litter
+
 print(handshake)
 
 
 async def connect_to_peer(peer_address):  # starting connections to the peer
-    try:
-        reader, writer = await asyncio.wait_for(  # trying to establish connection
-            asyncio.open_connection(peer_address[0], peer_address[1]),
-            timeout=10
-        )
-    except:  # if impossible, skip this connection
-        return
 
-# todo fix Operation Timed Out while handshaking peer
+    try:
+        reader, writer = await asyncio.open_connection(peer_address[0], peer_address[1], limit=1024)
+    except:
+        print('Impossible to make connection')
+        return
+    # print(writer, reader)
+
+    # todo fix Operation Timed Out while handshaking peer
     writer.write(handshake)  # handshaking a peer
-    msg = struct.pack('>Ib', 1, 2)  # unchoke and interest message
-    writer.write(msg)
+    # msg = struct.pack('>Ib', 1, 2)  # unchoke and interest message
+    # writer.write(msg)
+
     await writer.drain()  # buffers the data and arranges for it to be sent out asynchronously.
+    writer.write_eof()
+
     # peer_handshake = await reader.read(68)  doing nothing, stops program normal flow
     # print(peer_handshake)
-    resp = await reader.read(68)  # Suspends here if there's nothing to be read, also stops program normal flow
+    resp = (
+        await reader.read()
+    )  # Suspends here if there's nothing to be read, also stops program normal flow
 
     print(resp)
-    # print(writer, reader)
 
 
 async def downloads():  # for future
@@ -47,8 +51,8 @@ async def downloads():  # for future
 
 
 async def start_connections():  # function that starts an asynchronous connection with separate peer
-    connections = [asyncio.ensure_future(connect_to_peer(j)) for j in peers_addresses]
-    # connections = [asyncio.create_task(connect_to_peer(peers_addresses[0]))]
+    # connections = [asyncio.ensure_future(connect_to_peer(j)) for j in peers_addresses]
+    connections = [asyncio.create_task(connect_to_peer(peers_addresses[0]))]
     await asyncio.wait(connections)
     print('The end')
 

@@ -10,23 +10,26 @@ import socket
 
 """This module requests tracker and receives requests' interval time and peers data"""
 
-peer_id = 'SA' + ''.join(  # generating peer_id parameter to access tracker's url
+peer_id = '-AZ2060-' + ''.join(  # generating peer_id parameter to access tracker's url
     random.choice(string.ascii_lowercase + string.digits)
-    for i in range(18)
+    for i in range(12)
 )
+print(info_hash, peer_id)
 
 conn_parameters = {  # all parameters for accessing tracker's url
     'info_hash': info_hash,
     'peer_id': peer_id,
     'compact': 1,
-    'no_peer_id': 0,
+    # 'no_peer_id': 0,  # tracker ignores no_peer_id when compact = 1
     'event': 'started',
-    'port': 59696,
+    # 'port': 59696,
+    'port': 6881,  # bittorrent reserved ports are 6881-6889
     'uploaded': 0,
     'downloaded': 0,
-    'left': file_decoded[b'info'][b'length']
+    'left': file_decoded[b'info'][b'length'],
+    'numwant': 5
 }
-print(tracker_url)
+# print(tracker_url, conn_parameters)
 tracker_response = requests.get(tracker_url, params=conn_parameters)  # get request to tracker url
 tracker_data = bencoder.decode(tracker_response.content)  # encoding bytes tracker answer to a dict
 # print(tracker_data)
