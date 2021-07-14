@@ -29,7 +29,7 @@ async def connect_to_peer(peer_address):  # starting connections to the peer
         return
     # print(writer, reader)
 
-    # todo fix Operation Timed Out while handshaking peer
+    # todo fix Peer Reset Connection
     writer.write(handshake)  # handshaking a peer
     # msg = struct.pack('>Ib', 1, 2)  # unchoke and interest message
     # writer.write(msg)
@@ -39,7 +39,7 @@ async def connect_to_peer(peer_address):  # starting connections to the peer
 
     # peer_handshake = await reader.read(68)  doing nothing, stops program normal flow
     # print(peer_handshake)
-    resp = (
+    resp = (  # program usually killing itself here
         await reader.read()
     )  # Suspends here if there's nothing to be read, also stops program normal flow
 
